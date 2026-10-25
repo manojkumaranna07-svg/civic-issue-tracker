@@ -18,10 +18,10 @@ rectangle "P2.3\nStore Issue\nRecord" as P23 <<process>>
 rectangle "P2.4\nGenerate\nPublic ID" as P24 <<process>>
 rectangle "P2.5\nCreate\nNotifications" as P25 <<process>>
 
-rectangle "D2 Issues" as D2
-rectangle "D3 Issue Images" as D3
-rectangle "D6 Notifications" as D6
-rectangle "D8 Sectors\n& Categories" as D8
+database "D2 Issues" as D2
+database "D3 Issue Images" as D3
+database "D6 Notifications" as D6
+database "D8 Sectors\n& Categories" as D8
 
 E1 --> P21 : report form (title, sector,\ncategory, description, location, pin)
 D8 --> P21 : read sector / category pairing

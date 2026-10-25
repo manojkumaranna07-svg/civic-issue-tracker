@@ -10,14 +10,6 @@ start
 (title, sector, category,
 description, location);
 |System|
-:Record initial status
-history (Reported);
-note right
-  Every status change (initial report and each
-  transition) appends a timestamped entry to
-  the status history with actor and comment,
-  as implemented in api/issues.py.
-end note
 while (Input valid?) is (no)
   :Show validation errors;
   |Citizen|
@@ -27,6 +19,14 @@ endwhile (yes)
 :Store issue;
 :Save image if provided;
 :Generate public ID;
+:Record initial status
+history (Reported);
+note right
+  Every status change (initial report and each
+  transition) appends a timestamped entry to
+  the status history with actor and comment,
+  as implemented in api/issues.py.
+end note
 :Notify reporter and admins;
 |Administrator|
 :Review report;
@@ -65,7 +65,7 @@ with resolution note;
 :Notify citizen of resolution;
 |Administrator|
 :Review resolution;
-if (Accept resolution?) then (no)
+while (Accept resolution?) is (no)
   :Reopen (In Progress)
   with comment;
   |System|
@@ -73,11 +73,14 @@ if (Accept resolution?) then (no)
   :Notify citizen and staff;
   |Department Staff|
   :Rework the issue;
-  :Set status Resolved;
+  :Set status Resolved
+  with resolution note;
   |System|
   :Record status history;
-else (yes)
-endif
+  :Notify citizen of resolution;
+  |Administrator|
+  :Review resolution again;
+endwhile (yes)
 |Citizen|
 :View resolution
 and full history;

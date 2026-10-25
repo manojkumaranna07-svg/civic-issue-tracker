@@ -22,11 +22,19 @@ Four diagram categories for the Civic Issue Tracker. Sources are PlantUML
 ## 2. Use Case Diagram
 
 `use-case.puml` / `use-case.png` - actors Citizen, Administrator and Department Staff with the
-implemented use cases. `<<include>>` marks mandatory sub-flows (reporting and
+implemented use cases. Every diagram ships as PNG (preview) and SVG (vector, for
+zoom-quality printing in reports). DFD data stores use the cylinder
+symbol to stay clearly distinct from rectangular external entities
+(PlantUML has no native open-ended Gane-Sarson store shape).
+
+`<<include>>` marks mandatory sub-flows (reporting and
 upvoting include login; status changes and announcements always notify);
 `<<extend>>` arrows run from the optional use case to its base (image upload
 and map pin extend Report issue; notification extends assignment, which only
-notifies when a staff member is named). The class diagram's role subclasses
+notifies when a staff member is named). Add and remove upvote are one toggle
+use case backed by the POST/DELETE upvote endpoints, and commenting is open
+to every registered user (citizen, staff and admin), which is why both are
+modeled that way. The class diagram's role subclasses
 are conceptual: roles are implemented via the `User.role` column, noted on
 the diagram itself.
 

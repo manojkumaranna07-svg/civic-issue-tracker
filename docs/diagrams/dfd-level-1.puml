@@ -21,14 +21,14 @@ rectangle "P4\nIssue Management\n& Status Updates" as P4 <<process>>
 rectangle "P5\nUpvote\nProcessing" as P5 <<process>>
 rectangle "P6\nNotifications\n& Analytics" as P6 <<process>>
 
-rectangle "D1 Users" as D1
-rectangle "D2 Issues" as D2
-rectangle "D3 Issue Images" as D3
-rectangle "D4 Status History" as D4
-rectangle "D5 Upvotes" as D5
-rectangle "D6 Notifications" as D6
-rectangle "D7 Departments\n& Assignments" as D7
-rectangle "D8 Sectors\n& Categories" as D8
+database "D1 Users" as D1
+database "D2 Issues" as D2
+database "D3 Issue Images" as D3
+database "D4 Status History" as D4
+database "D5 Upvotes" as D5
+database "D6 Notifications" as D6
+database "D7 Departments\n& Assignments" as D7
+database "D8 Sectors\n& Categories" as D8
 
 E1 --> P1 : registration / login
 E2 --> P1 : login
