@@ -1,4 +1,5 @@
-@startuml "Civic Issue Tracker - Class Diagram"
+@startuml
+title Civic Issue Tracker - Class Diagram
 skinparam monochrome true
 skinparam shadowing false
 
@@ -108,6 +109,12 @@ Citizen --|> User
 Administrator --|> User
 DepartmentStaff --|> User
 User --> UserRole
+note right of User
+  Roles are implemented as the User.role column
+  on the single users table. Citizen, Administrator
+  and DepartmentStaff are shown as subclasses for
+  conceptual clarity, not as separate tables.
+end note
 Sector "1" *-- "many" Category
 Sector "1" o-- "many" Department
 Department "1" o-- "many" DepartmentStaff : employs >

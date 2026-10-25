@@ -1,6 +1,7 @@
-@startuml "Civic Issue Tracker - Activity Diagram: Issue Resolution Workflow"
+@startuml
 skinparam monochrome true
 skinparam shadowing false
+title Civic Issue Tracker - Activity Diagram: Issue Resolution Workflow
 
 |Citizen|
 start
@@ -9,23 +10,30 @@ start
 (title, sector, category,
 description, location);
 |System|
-if (Input valid?) then (no)
+:Record initial status
+history (Reported);
+note right
+  Every status change (initial report and each
+  transition) appends a timestamped entry to
+  the status history with actor and comment,
+  as implemented in api/issues.py.
+end note
+while (Input valid?) is (no)
   :Show validation errors;
   |Citizen|
   :Correct and resubmit;
   |System|
-else (yes)
-endif
-:Store issue (status = Reported);
+endwhile (yes)
+:Store issue;
 :Save image if provided;
-:Generate public ID
-(CIV-YYYY-NNNNN);
+:Generate public ID;
 :Notify reporter and admins;
 |Administrator|
 :Review report;
 if (Accept?) then (reject)
   :Set Rejected with reason;
   |System|
+  :Record status history;
   :Notify citizen of rejection;
   stop
 else (accept)
@@ -40,25 +48,36 @@ else (accept)
   :Assign to department
   (and staff if available);
   :Set status Under Review;
+  |System|
+  :Record status history;
 endif
 |Department Staff|
 :Start work;
 :Set status In Progress;
+|System|
+:Record status history;
+|Department Staff|
 :Resolve issue on site;
 :Set status Resolved
 with resolution note;
 |System|
-if (Resolution valid?) then (no)
-  |Administrator|
-  :Reopen (In Progress);
+:Record status history;
+:Notify citizen of resolution;
+|Administrator|
+:Review resolution;
+if (Accept resolution?) then (no)
+  :Reopen (In Progress)
+  with comment;
+  |System|
+  :Record status history;
+  :Notify citizen and staff;
   |Department Staff|
   :Rework the issue;
   :Set status Resolved;
   |System|
+  :Record status history;
 else (yes)
 endif
-:Record status history;
-:Notify citizen of resolution;
 |Citizen|
 :View resolution
 and full history;

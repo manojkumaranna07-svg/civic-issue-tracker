@@ -1,16 +1,24 @@
-@startuml "Civic Issue Tracker - DFD Level 0 (Context Diagram)"
+@startuml
 skinparam monochrome true
 skinparam shadowing false
+skinparam rectangle {
+  roundCorner 0
+}
+hide <<process>> stereotype
+skinparam rectangle<<process>> {
+  roundCorner 50
+}
+title Civic Issue Tracker - Data Flow Diagram: Level 0 (Context)
 
-actor Citizen
-actor Administrator
-actor "Department Staff" as Staff
-rectangle "0. Civic Issue Tracker\nSystem" as SYS #white
+rectangle Citizen as E1
+rectangle Administrator as E2
+rectangle "Department\nStaff" as E3
+rectangle "0. Civic Issue\nTracker System" as SYS <<process>>
 
-Citizen --> SYS : credentials, issue report\n(details + photo + pin), upvotes, comments
-SYS --> Citizen : issue ID + confirmation, status updates,\nnotifications, issue/map views
-Administrator --> SYS : status changes, assignments,\ncatalog changes, announcements
-SYS --> Administrator : dashboard statistics,\nall issue reports, notifications
-Staff --> SYS : progress updates,\nresolution details
-SYS --> Staff : assigned issues, notifications
+E1 --> SYS : credentials, issue report\n(details + photo + pin),\nupvotes, comments
+SYS --> E1 : issue ID + confirmation,\nstatus updates, notifications,\nissue and map views
+E2 --> SYS : status changes, assignments,\ncatalog changes, announcements
+SYS --> E2 : dashboard statistics,\nall issue reports, notifications
+E3 --> SYS : progress updates,\nresolution details
+SYS --> E3 : assigned issues, notifications
 @enduml
