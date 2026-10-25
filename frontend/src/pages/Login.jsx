@@ -35,6 +35,7 @@ export default function Login() {
         </label>
         <button className="btn btn-primary" disabled={busy}>{busy ? 'Logging in…' : 'Login'}</button>
         <p className="muted center">New here? <Link to="/register">Create an account</Link></p>
+        {import.meta.env.VITE_SHOW_DEMO_HINT !== 'false' && (
         <details className="demo-hint">
           <summary>Demo accounts</summary>
           <p className="muted small">
@@ -43,6 +44,7 @@ export default function Login() {
             admin@example.com / Admin@123
           </p>
         </details>
+        )}
       </form>
     </div>
   )

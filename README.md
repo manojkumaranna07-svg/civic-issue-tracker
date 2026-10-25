@@ -182,3 +182,13 @@ data are represented.
 - Vite warns the JS bundle exceeds 500 kB (recharts + leaflet); code
   splitting would trim initial load.
 - Email addresses are syntax-checked only; no verification flow exists.
+
+## Deployment (Render + Neon, free tier)
+
+The repo ships a root `Dockerfile`: it builds the React frontend and serves
+API + frontend from one uvicorn process. Production uses PostgreSQL via the
+`DATABASE_URL` env var (local development stays on SQLite). Set `SECRET_KEY`
+and `DATABASE_URL` in the host's environment. Demo-account passwords can be
+overridden at seed time with `SEED_ADMIN_PASSWORD`, `SEED_STAFF_PASSWORD` and
+`SEED_CITIZEN_PASSWORD`; the login-page demo-credential hint is hidden in
+production builds (`VITE_SHOW_DEMO_HINT=false`, the Dockerfile default).

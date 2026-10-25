@@ -7,6 +7,7 @@ coordinates and therefore appear in lists only, never on the map.
 
 Run:  python -m app.seed        (from backend/)
 """
+import os
 from datetime import datetime, timedelta
 
 from .database.base import Base
@@ -17,11 +18,11 @@ from .models import (User, UserRole, Sector, Category, Department, Issue,
                      Notification, Announcement, IssueAssignment)
 from .services import auth_service
 
-DEMO_PASSWORDS = {"admin@example.com": "Admin@123",
-                  "staff@example.com": "Staff@123",
-                  "citizen@example.com": "Citizen@123",
-                  "meena@example.com": "Citizen@123",
-                  "arun@example.com": "Citizen@123"}
+DEMO_PASSWORDS = {"admin@example.com": os.getenv("SEED_ADMIN_PASSWORD", "Admin@123"),
+                  "staff@example.com": os.getenv("SEED_STAFF_PASSWORD", "Staff@123"),
+                  "citizen@example.com": os.getenv("SEED_CITIZEN_PASSWORD", "Citizen@123"),
+                  "meena@example.com": os.getenv("SEED_CITIZEN_PASSWORD", "Citizen@123"),
+                  "arun@example.com": os.getenv("SEED_CITIZEN_PASSWORD", "Citizen@123")}
 
 SECTORS = {
     "Municipal & Civic Services": ["Potholes & Roads", "Garbage & Sanitation",
