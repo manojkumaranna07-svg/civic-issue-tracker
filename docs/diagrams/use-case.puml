@@ -48,6 +48,7 @@ UC_Catalog -[hidden]d- UC_Users
 UC_Users -[hidden]d- UC_Announce
 UC_Announce -[hidden]d- UC_Dash
 
+User -[hidden]u- UC_Auth
 User -- UC_Auth
 User -- UC_View
 User -- UC_Map
