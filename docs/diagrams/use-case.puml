@@ -1,0 +1,68 @@
+@startuml "Civic Issue Tracker - Use Case Diagram"
+skinparam monochrome true
+skinparam shadowing false
+left to right direction
+
+actor Citizen
+actor Administrator
+actor "Department Staff" as Staff
+
+rectangle "Civic Issue Tracker" {
+  usecase "Register / Log in" as UC_Auth
+  usecase "Report issue" as UC_Report
+  usecase "Upload image" as UC_Image
+  usecase "Pin location on map" as UC_Pin
+  usecase "View issues" as UC_View
+  usecase "Search & filter issues" as UC_Search
+  usecase "View issues on map" as UC_Map
+  usecase "Upvote issue (Me Too)" as UC_Upvote
+  usecase "Remove upvote" as UC_UnUpvote
+  usecase "Track issue status" as UC_Track
+  usecase "Receive notifications" as UC_Notify
+  usecase "Comment on issue" as UC_Comment
+  usecase "Update issue status" as UC_Status
+  usecase "Assign issue to\ndepartment / staff" as UC_Assign
+  usecase "Manage sectors, categories\n& departments" as UC_Catalog
+  usecase "Manage users & roles" as UC_Users
+  usecase "Broadcast announcements" as UC_Announce
+  usecase "View dashboard & reports" as UC_Dash
+}
+
+Citizen --> UC_Auth
+Citizen --> UC_Report
+Citizen --> UC_View
+Citizen --> UC_Search
+Citizen --> UC_Map
+Citizen --> UC_Upvote
+Citizen --> UC_UnUpvote
+Citizen --> UC_Track
+Citizen --> UC_Notify
+Citizen --> UC_Comment
+
+Administrator --> UC_Auth
+Administrator --> UC_View
+Administrator --> UC_Search
+Administrator --> UC_Status
+Administrator --> UC_Assign
+Administrator --> UC_Catalog
+Administrator --> UC_Users
+Administrator --> UC_Announce
+Administrator --> UC_Dash
+Administrator --> UC_Notify
+Administrator --> UC_Comment
+
+Staff --> UC_Auth
+Staff --> UC_View
+Staff --> UC_Status
+Staff --> UC_Notify
+Staff --> UC_Comment
+
+UC_Report ..> UC_Image : <<extend>>
+UC_Report ..> UC_Pin : <<extend>>
+UC_Report ..> UC_Auth : <<include>>
+UC_Upvote ..> UC_Auth : <<include>>
+UC_Status ..> UC_Notify : <<include>>
+UC_Assign ..> UC_Notify : <<include>>
+UC_Track ..> UC_View : <<include>>
+UC_Announce ..> UC_Notify : <<include>>
+@enduml

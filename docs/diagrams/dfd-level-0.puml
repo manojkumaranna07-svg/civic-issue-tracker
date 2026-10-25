@@ -1,0 +1,16 @@
+@startuml "Civic Issue Tracker - DFD Level 0 (Context Diagram)"
+skinparam monochrome true
+skinparam shadowing false
+
+actor Citizen
+actor Administrator
+actor "Department Staff" as Staff
+rectangle "0. Civic Issue Tracker\nSystem" as SYS #white
+
+Citizen --> SYS : credentials, issue report\n(details + photo + pin), upvotes, comments
+SYS --> Citizen : issue ID + confirmation, status updates,\nnotifications, issue/map views
+Administrator --> SYS : status changes, assignments,\ncatalog changes, announcements
+SYS --> Administrator : dashboard statistics,\nall issue reports, notifications
+Staff --> SYS : progress updates,\nresolution details
+SYS --> Staff : assigned issues, notifications
+@enduml

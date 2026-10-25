@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+.env
+backend/civic.db
+backend/uploads/*
+!backend/uploads/.gitkeep
+frontend/node_modules/
+frontend/dist/
+tools/plantuml.jar
+.pytest_cache/
+.vitest_cache/

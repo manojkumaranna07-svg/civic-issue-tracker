@@ -1,0 +1,62 @@
+@startuml "Civic Issue Tracker - DFD Level 1"
+skinparam monochrome true
+skinparam shadowing false
+left to right direction
+
+actor Citizen
+actor Administrator
+actor "Department Staff" as Staff
+
+rectangle "P1\nUser\nAuthentication" as P1 #white
+rectangle "P2\nIssue\nReporting" as P2 #white
+rectangle "P3\nIssue Search\n& Map Display" as P3 #white
+rectangle "P4\nIssue Management\n& Status Updates" as P4 #white
+rectangle "P5\nUpvote\nProcessing" as P5 #white
+rectangle "P6\nNotifications\n& Analytics" as P6 #white
+
+database "D1 Users" as D1
+database "D2 Issues" as D2
+database "D3 Issue Images" as D3
+database "D4 Status History" as D4
+database "D5 Upvotes" as D5
+database "D6 Notifications" as D6
+database "D7 Departments\n& Assignments" as D7
+database "D8 Sectors\n& Categories" as D8
+
+Citizen --> P1 : registration / login
+Administrator --> P1 : login
+Staff --> P1 : login
+P1 --> D1 : verify / store users
+P1 --> Citizen : token
+P1 --> Administrator : token
+P1 --> Staff : token
+
+Citizen --> P2 : issue report + photo + pin
+P2 --> D2 : store issue
+P2 --> D3 : store image file
+P2 --> D8 : read sectors/categories
+P2 --> D6 : submission notice
+P2 --> Citizen : public ID + confirmation
+
+Citizen --> P3 : search / filter / map request
+P3 --> D2 : query issues
+P3 --> Citizen : issue list / pinned markers
+
+Administrator --> P4 : status change / assignment
+Staff --> P4 : progress / resolution update
+P4 --> D2 : update status
+P4 --> D4 : append history
+P4 --> D7 : store assignment
+P4 --> D6 : status notification
+
+Citizen --> P5 : upvote / remove
+P5 --> D5 : store/delete vote (unique per user)
+P5 --> Citizen : supporter count
+
+P6 --> D6 : read/write notifications
+P6 --> D2 : aggregate stats
+P6 --> D4 : resolution times
+P6 --> Administrator : dashboard analytics
+P6 --> Citizen : notifications
+P6 --> Staff : notifications
+@enduml

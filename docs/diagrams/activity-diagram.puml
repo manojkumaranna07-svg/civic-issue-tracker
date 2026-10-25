@@ -1,0 +1,66 @@
+@startuml "Civic Issue Tracker - Activity Diagram: Issue Resolution Workflow"
+skinparam monochrome true
+skinparam shadowing false
+
+|Citizen|
+start
+:Register / log in;
+:Fill report form
+(title, sector, category,
+description, location);
+|System|
+if (Input valid?) then (no)
+  :Show validation errors;
+  |Citizen|
+  :Correct and resubmit;
+  |System|
+else (yes)
+endif
+:Store issue (status = Reported);
+:Save image if provided;
+:Generate public ID
+(CIV-YYYY-NNNNN);
+:Notify reporter and admins;
+|Administrator|
+:Review report;
+if (Accept?) then (reject)
+  :Set Rejected with reason;
+  |System|
+  :Notify citizen of rejection;
+  stop
+else (accept)
+  if (Needs clarification?) then (yes)
+    :Add admin comment;
+    |System|
+    :Notify citizen;
+    |Administrator|
+    :Wait for citizen reply;
+  else (no)
+  endif
+  :Assign to department
+  (and staff if available);
+  :Set status Under Review;
+endif
+|Department Staff|
+:Start work;
+:Set status In Progress;
+:Resolve issue on site;
+:Set status Resolved
+with resolution note;
+|System|
+if (Resolution valid?) then (no)
+  |Administrator|
+  :Reopen (In Progress);
+  |Department Staff|
+  :Rework the issue;
+  :Set status Resolved;
+  |System|
+else (yes)
+endif
+:Record status history;
+:Notify citizen of resolution;
+|Citizen|
+:View resolution
+and full history;
+stop
+@enduml

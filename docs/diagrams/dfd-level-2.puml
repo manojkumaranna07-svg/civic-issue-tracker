@@ -1,0 +1,31 @@
+@startuml "Civic Issue Tracker - DFD Level 2: P2 Issue Reporting"
+skinparam monochrome true
+skinparam shadowing false
+left to right direction
+
+actor Citizen
+rectangle "P2.1\nValidate\nInput" as P21 #white
+rectangle "P2.2\nValidate & Store\nImage" as P22 #white
+rectangle "P2.3\nStore Issue\nRecord" as P23 #white
+rectangle "P2.4\nGenerate\nPublic ID" as P24 #white
+rectangle "P2.5\nCreate\nNotifications" as P25 #white
+
+database "D2 Issues" as D2
+database "D3 Issue Images" as D3
+database "D6 Notifications" as D6
+database "D8 Sectors\n& Categories" as D8
+
+Citizen --> P21 : report form\n(title, sector, category,\ndescription, location, pin)
+P21 --> D8 : check sector/category pairing
+P21 --> Citizen : validation errors (if any)
+P21 --> P22 : optional photo
+P22 --> Citizen : image rejected\n(type/size invalid)
+P22 --> D3 : safe renamed file
+P21 --> P23 : validated fields
+P23 --> D2 : insert issue (Reported)
+P23 --> P24 : new record
+P24 --> D2 : set public ID
+P24 --> P25 : issue reference
+P25 --> D6 : reporter + admin notices
+P25 --> Citizen : confirmation + tracking ID
+@enduml

@@ -1,0 +1,130 @@
+@startuml "Civic Issue Tracker - Class Diagram"
+skinparam monochrome true
+skinparam shadowing false
+
+enum UserRole {
+  CITIZEN
+  ADMIN
+  STAFF
+}
+enum IssueStatus {
+  REPORTED
+  UNDER_REVIEW
+  IN_PROGRESS
+  RESOLVED
+  REJECTED
+}
+
+class User {
+  +id : int
+  +name : str
+  +email : str
+  +password_hash : str
+  +role : UserRole
+  +is_active : bool
+  --
+  +verify_password(pw) : bool
+}
+class Citizen {
+  +report_issue() : Issue
+  +upvote(issue) : void
+}
+class Administrator {
+  +update_status(issue, status) : void
+  +assign(issue, dept, staff) : void
+  +broadcast(announcement) : void
+}
+class DepartmentStaff {
+  +update_progress(issue) : void
+  +record_resolution(issue) : void
+}
+
+class Sector {
+  +id : int
+  +name : str
+}
+class Category {
+  +id : int
+  +name : str
+}
+class Department {
+  +id : int
+  +name : str
+  +contact_email : str
+}
+
+class Issue {
+  +id : int
+  +public_id : str
+  +title : str
+  +description : str
+  +location_text : str
+  +latitude : float | null
+  +longitude : float | null
+  +status : IssueStatus
+  +rejection_reason : str | null
+  +resolved_at : datetime | null
+  --
+  +change_status(next, by) : void
+}
+class IssueImage {
+  +id : int
+  +filename : str
+  +size_bytes : int
+}
+class IssueStatusHistory {
+  +id : int
+  +old_status
+  +new_status : IssueStatus
+  +comment : str
+}
+class Upvote {
+  +id : int
+  +created_at : datetime
+}
+class IssueAssignment {
+  +id : int
+  +note : str
+  +is_active : bool
+}
+class Notification {
+  +id : int
+  +type : str
+  +title : str
+  +is_read : bool
+}
+class Comment {
+  +id : int
+  +body : str
+  +is_admin : bool
+}
+class Announcement {
+  +id : int
+  +title : str
+  +body : str
+}
+
+Citizen --|> User
+Administrator --|> User
+DepartmentStaff --|> User
+User --> UserRole
+Sector "1" *-- "many" Category
+Sector "1" o-- "many" Department
+Department "1" o-- "many" DepartmentStaff : employs >
+Citizen "1" -- "many" Issue : reports >
+Issue "1" *-- "many" IssueImage
+Issue "1" *-- "many" IssueStatusHistory : history >
+Issue "1" *-- "many" Upvote
+Citizen "1" -- "many" Upvote
+Issue "1" *-- "many" IssueAssignment
+Department "1" -- "many" IssueAssignment
+IssueAssignment "many" -- "0..1" DepartmentStaff : assigned to >
+User "1" -- "many" Notification : receives >
+Issue "1" *-- "many" Comment
+User "1" -- "many" Comment : writes >
+Administrator "1" -- "many" Announcement : posts >
+Issue --> IssueStatus
+Category "1" -- "many" Issue
+Sector "1" -- "many" Issue
+User "1" -- "many" IssueStatusHistory : changes >
+@enduml
